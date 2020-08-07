@@ -5,40 +5,39 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+    //Variables
     ListView ListView_listSensor;
     private SensorManager mSensorManager;
-
+    ArrayList<String> list_sensor_string = new ArrayList<String>(); //Creating a String arrayList to save sensor info.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView_listSensor = findViewById(R.id.ListView_listSensor);
 
-        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        List<Sensor> mList_sensor = mSensorManager.getSensorList(Sensor.TYPE_ALL);
-        ArrayList<String> lista = new ArrayList<String>();
+        ListView_listSensor = findViewById(R.id.ListView_listSensor); //Associating ListView
 
-        for (Sensor sensor : mList_sensor
+
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);    //Instance of the object of SensorManager Class
+        List<Sensor> mList_sensor = mSensorManager.getSensorList(Sensor.TYPE_ALL); //calling the GetSensorList method
+
+        for (Sensor sensor : mList_sensor //foreach that iterate the list to get the information
         ) {
             String info = "\n Nome: " +  sensor.getName() + "; Vendor: " + sensor.getVendor() + "; Version: " + sensor.getVersion();
-            lista.add(info);
+            list_sensor_string.add(info);
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,lista);
+        //Using a basic ArrayAdapter to set the Sensor's list at ListView
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,list_sensor_string);
         ListView_listSensor.setAdapter(adapter);
 
 
